@@ -1,0 +1,24 @@
+{
+  "newBooking": {
+    "firstname": "Jim",
+    "lastname": "Brown",
+    "totalprice": 111,
+    "depositpaid": true,
+    "bookingdates": {
+      "checkin": "2026-01-01",
+      "checkout": "2026-01-10"
+    },
+    "additionalneeds": "Breakfast"
+  },
+  "updateBooking": {
+    "firstname": "James",
+    "lastname": "Brown",
+    "totalprice": 222,
+    "depositpaid": false,
+    "bookingdates": {
+      "checkin": "2026-02-01",
+      "checkout": "2026-02-15"
+    },
+    "additionalneeds": "Lunch"
+  }
+}
