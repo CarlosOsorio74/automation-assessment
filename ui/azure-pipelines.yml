@@ -1,0 +1,47 @@
+# 1. Gatillos: Se ejecuta al hacer un Pull Request a 'main'
+pr:
+  - main
+
+# 2. Ejecución programada: Corre todas las noches a la medianoche
+schedules:
+- cron: "0 0 * * *"
+  displayName: Ejecución nocturna diaria
+  branches:
+    include:
+    - main
+  always: true
+
+# 3. Entorno: Define qué sistema operativo usará la nube (CAMBIO A WINDOWS)
+pool:
+  vmImage: 'windows-latest'
+
+# 4. Pasos (Steps) a ejecutar
+steps:
+# Instalar Node.js
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Instalar Node.js'
+
+# Instalar las librerías (Jest, Selenium, Mocha, etc.)
+- script: |
+    npm install
+  displayName: 'Instalar dependencias del proyecto'
+
+# Ejecutar las pruebas de API
+- script: |
+    npm run test:api
+  displayName: 'Ejecutar pruebas de API (Jest)'
+
+# Ejecutar las pruebas de Interfaz Web
+- script: |
+    npm run test:ui
+  displayName: 'Ejecutar pruebas de Interfaz (Mocha/Selenium)'
+
+# Recolectar y publicar los gráficos de resultados
+- task: PublishTestResults@2
+  condition: succeededOrFailed() 
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit.xml' 
+  displayName: 'Publicar resultados de las pruebas'
